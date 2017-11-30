@@ -15,8 +15,8 @@ import { User } from '../models/user';
 })
 export class TrackingListComponent implements OnInit {
 
-  uid: number;
   deliveryEntries: Observable<DeliveryEntry[]>;
+  user: User;
 
   constructor(
     private trackingService: TrackingService,
@@ -26,8 +26,18 @@ export class TrackingListComponent implements OnInit {
   }
 
   ngOnInit() {
-    const uid = +this.route.snapshot.paramMap.get('uid');
-    this.deliveryEntries = this.trackingService.fetchDeliveryEntries(this.uid);
+    const name: string = this.route.snapshot.paramMap.get('name');
+    console.log("fetching for " + name)
+    this.trackingService.getUsers(name).subscribe(users => {
+      console.log(users)
+      if (users.length) {
+        this.user = users[0]
+        this.deliveryEntries = this.trackingService.fetchDeliveryEntries(users[0].id);
+      } else {
+        this.deliveryEntries = of([])
+      }
+    });
+
   }
 
   goBack(): void {

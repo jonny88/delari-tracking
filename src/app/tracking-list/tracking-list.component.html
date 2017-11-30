@@ -1,12 +1,13 @@
 <h2>Tracking List:</h2>
 
-<div *ngIf="deliveryEntries | async; else loadingScreen; let entries">
-  <table>
+<div *ngIf="deliveryEntries | async; let entries; else loadingScreen;">
+  <table *ngIf="entries">
     <tr *ngFor="let entry of entries">
       <td>{{entry.creationTimestamp | date: 'dd/MM/yyyy'}}</td>
       <td>{{entry.trackingNumber}}</td>
     </tr>
   </table>
+  <span *ngIf="entries.length == 0">No entries.. :(</span>
 </div>
 
 <ng-template #loadingScreen>loading...</ng-template>

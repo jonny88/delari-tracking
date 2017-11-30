@@ -1,8 +1,12 @@
 <h2>Package Tracking:</h2>
 
-<form>
+<form (ngSubmit)="search()">
   <label>
-      <input name="searchInput" type="search" [(ngModel)]="searchInput" placeholder="enter your name" required><br>
+    <input name="searchInput" type="search" [(ngModel)]="searchInput" (ngModelChange)="valueChange()" placeholder="enter your name" required>
+    <br>
   </label>
-<input type="submit" (click)="search()">
+  <div [hidden]="validUser" class="alert alert-danger">
+    User not found
+  </div>
+  <input type="submit">
 </form>
